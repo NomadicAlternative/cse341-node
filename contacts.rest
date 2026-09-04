@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:8080
+
+### Get all contacts
+GET {{baseUrl}}/contacts
+
+### Get a single contact by id
+GET {{baseUrl}}/contacts/6a9a7f24b235744b5c8d1009
+
+### Try a contact that does NOT exist (should return 404)
+GET {{baseUrl}}/contacts/000000000000000000000000
