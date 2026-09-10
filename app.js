@@ -6,8 +6,9 @@ require('dotenv').config();
 const express = require('express');
 // Import our own function that connects to MongoDB (db/connect.js)
 const connectDB = require('./db/connect');
-// Import the routes we defined in routes/contacts.js
-const contactsRoutes = require('./routes/contacts');
+// Import Swagger UI and the generated documentation file
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 // Create the Express application
 const app = express();
@@ -20,9 +21,12 @@ const port = process.env.PORT || 8080;
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
-// Mount the contacts routes: every request starting with /contacts
-// will be handled by routes/contacts.js
-app.use('/contacts', contactsRoutes);
+
+// Serve the interactive Swagger documentation UI at /api-docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Mount all routes: routes/index.js handles the /contacts prefix
+app.use('/', require('./routes'));
 
 // start is an async function: we MUST connect to the DB before listening
 const start = async () => {

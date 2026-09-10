@@ -34,5 +34,63 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
+
+// POST /contacts -> crear un contacto nuevo
+router.post('/', async (req, res) => {
+  try {
+    const newContact = new Contact({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      favoriteColor: req.body.favoriteColor,
+      birthday: req.body.birthday
+    });
+    const saved = await newContact.save();
+    res.status(201).json({ id: saved._id });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// PUT /contacts/:id -> actualizar un contacto existente
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await Contact.findByIdAndUpdate(
+      id,
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        favoriteColor: req.body.favoriteColor,
+        birthday: req.body.birthday
+      },
+      { returnDocument: 'after' }
+    );
+    if (!updated) {
+      return res.status(404).json({ message: 'Contact not found' });
+    }
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// DELETE /contacts/:id -> borrar un contacto existente
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Contact.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ message: 'Contact not found' });
+    }
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Export the router so app.js can mount it
 module.exports = router;
+

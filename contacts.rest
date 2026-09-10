@@ -14,3 +14,30 @@ GET https://cse341-node-week1-9vs0.onrender.com/contacts
 
 ### Get single contact by id - PRODUCTION (Render)
 GET https://cse341-node-week1-9vs0.onrender.com/contacts/6a9a7f24b235744b5c8d1009
+
+### Create a new contact
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Carlos",
+  "lastName": "Pérez",
+  "email": "carlos@mail.com",
+  "favoriteColor": "green",
+  "birthday": "1988-11-02"
+}
+
+### Update a contact
+PUT {{baseUrl}}/contacts/6aa12c803c58b20773192adb
+Content-Type: application/json
+
+{
+  "firstName": "Carlos",
+  "lastName": "Pérez",
+  "email": "carlos.nuevo@mail.com",
+  "favoriteColor": "red",
+  "birthday": "1988-11-02"
+}
+
+### Delete a contact
+DELETE {{baseUrl}}/contacts/6aa12c803c58b20773192adb
